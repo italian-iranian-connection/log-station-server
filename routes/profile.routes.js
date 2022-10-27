@@ -1,20 +1,58 @@
 const router = require("express").Router();
-const mongoose = require("mongoose")
-// const Profile = require("../models/Profile.model");
+const mongoose = require("mongoose");
 const User = require("../models/User.model");
 // const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 
+router.post(
+  "/create-profile",
+  fileUploader.single("image"),
+  (req, res, next) => {
+    if (req.file.path) {
+      const profileImg = req.file.path;
+      return profileImg;
+    }
 
+    const { headline, basedIn, technologies, githubUrl, profileImg } = req.body;
+
+    const newProfile = {
+      headline,
+      basedIn,
+      technologies,
+      githubUrl,
+      profileImg,
+    };
+
+    User.create(newProfile)
+      .then((newProfile) => {
+        res.json(newProfile);
+      })
+      .catch((err) => {
+        console.log("error creating new profile");
+        res.status(500).json({
+          message: "error creating a new profile",
+          error: err,
+        });
+      });
+  }
+);
 
 router.get("/user/:userId", (req, res, next) => {
+  const { userId } = req.params;
 
-    const {userId} = req.params;
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    res.status(400).json({ message: "Specified user id is not valid" });
+    return;
+  }
 
   User.findById(userId)
     .then((user) => {
-      res.json(user);
+      if (req.payload._id == userId) {
+        res.json(user);
+      } else {
+        res.status(400).json({ message: "Not authorize to see this profile" });
+      }
     })
     .catch((err) => {
       console.log("error getting user");
@@ -25,52 +63,38 @@ router.get("/user/:userId", (req, res, next) => {
     });
 });
 
+router.put("/user/:userId", (req, res, next) => {
+  const { userId } = req.params;
+  const { headline, basedIn, technologies, githubUrl, profileImg } = req.body;
 
+    const updatedProfile = {
+      headline,
+      basedIn,
+      technologies,
+      githubUrl,
+      profileImg,
+    };
 
-
-
-router.post(
-    "/profile",
-  //   fileUploader.single("image"),
-     (req, res, next) => {
-  //     if(req.file.path){
-  //         const screenshoot = req.file.path
-  //         return screenshoot
-  //     }
-  //     const userId = req.payload._id  // to add when defied
-       const { name, technologies, basedIn, description, headline } = req.body;
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      res.status(400).json({ message: 'Specified profile id is not valid' });
+      return;
+  } 
+  Profile.findByIdAndUpdate( userId, updatedProfile, { returnDocument: "after" } )
+  .then((updatedProfile) => {
+      if(req.payload._id == userId){
+          res.json(updatedProfile)
+      } else {
+          res.status(400).json({message: 'Not authorize to update this profile'})
+      }
+  })
+  .catch((err) => {
+      console.log("error updating the profile", userId);
+      res.status(500).json({
+        message: `error updating the profile ${userId} `,
+        error: err,
+      });
+    });
   
-      const newProfile = {
-        name,
-        technologies,
-        basedIn,
-        description,
-        headline
-      };
-  
-  
-      User.create(newProfile)
-        .then((newProfile) => {
-          res.json(newProfile);
-        })
-        .catch((err) => {
-          console.log("error creating new profile");
-          res.status(500).json({
-            message: "error creating a new profile",
-            error: err,
-          });
-        });
-    }
-  );
-
-
-
-
-
-
-
+})
 
 module.exports = router;
-
-
-
