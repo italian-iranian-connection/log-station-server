@@ -4,20 +4,20 @@ const projectSchema = new Schema(
   {
     name: {
         type: String,
-        required: true,
+        required: false,
     },
     technologies: {
         type: [String],
-        required: true
+        required: false
     },
     deploymentUrl: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     gitRepoUrl: {
         type: String,
-        required: true,
+        required: false,
         trim: true
     },
     status: {
