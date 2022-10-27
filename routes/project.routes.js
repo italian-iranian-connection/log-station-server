@@ -8,13 +8,14 @@ const fileUploader = require("../config/cloudinary.config"); // , fileUploader.s
 
 router.post(
   "/projects",
+  isAuthenticated, 
   fileUploader.single("screenshoot"),
   (req, res, next) => {
-    // if(req.file.path){
-    //     const screenshoot = req.file.path
-    //     return screenshoot
-    // }
-    const userId = req.payload; // _id   to add when defied
+    if(req.file.path){
+        const screenshoot = req.file.path
+        return screenshoot
+    }
+    const userId = req.payload._id  // to add when defied
     const { name, technologies, deploymentUrl, gitRepoUrl, status } = req.body;
 
     const newProject = {
@@ -24,7 +25,7 @@ router.post(
       gitRepoUrl,
       status,
       userId,
-      //screenshoot,
+      screenshoot,
     };
 
     Project.create(newProject)
@@ -41,7 +42,7 @@ router.post(
   }
 );
 
-router.get("/projects", (req, res, next) => {
+router.get("/projects", isAuthenticated, (req, res, next) => {
 
   Project.find()
     .then((projectsList) => {
@@ -56,7 +57,7 @@ router.get("/projects", (req, res, next) => {
     });
 });
 
-router.get("/projects/:projectId", (req, res, next) => {
+router.get("/projects/:projectId", isAuthenticated, (req, res, next) => {
 
     const {projectId } = req.params
 
@@ -78,10 +79,10 @@ router.get("/projects/:projectId", (req, res, next) => {
       });
 });
 
-router.put("/projects/:projectId", (req, res, next) => {
+router.put("/projects/:projectId", isAuthenticated, (req, res, next) => {
 
     const {projectId } = req.params
-    const userId = req.payload; // _id   to add when defied
+    const userId = req.payload._id   //to add when defied
     const { name, technologies, deploymentUrl, gitRepoUrl, status } = req.body;
 
     const updateProject = {
@@ -90,16 +91,16 @@ router.put("/projects/:projectId", (req, res, next) => {
       deploymentUrl,
       gitRepoUrl,
       status,
-      //screenshoot,
+      screenshoot,
     };
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
         res.status(400).json({ message: 'Specified project id is not valid' });
         return;
     } 
-    Project.findByIdAndUpdate( projectId, updateProject )
+    Project.findByIdAndUpdate( projectId, updateProject, { returnDocument: "after" } )
     .then((projectUpdated) => {
-        if(req.payload && req.payload._id == projectUpdated.userId){
+        if(req.payload && userId == projectUpdated.userId){
             res.json(projectUpdated)
         } else {
             res.status(400).json({message: 'Not authorize to update this project'})
@@ -112,7 +113,33 @@ router.put("/projects/:projectId", (req, res, next) => {
           error: err,
         });
       });
+})
 
+router.delete("/projects/:projectsId", isAuthenticated, (req, res, next) => {
+    const {projectId } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(projectId)) {
+        res.status(400).json({ message: 'Specified project id is not valid' });
+        return;
+    } 
+
+    Project.findByIdAndRemove(projectId)
+    .then((project)=> {
+        if(req.payload && req.payload._id == project.userId){
+            res.json({message: `Project: ${projectId} succesfully deleted` })
+        } else {
+            res.status(400).json({message: 'Not authorize to delete this project'})
+        }
+    })
+    .catch((err) => {
+        console.log("error deleting the project", projectId);
+        res.status(500).json({
+          message: `error deletingting the project ${projectId} `,
+          error: err,
+        });
+      });
+
+    
 })
 
 module.exports = router;
