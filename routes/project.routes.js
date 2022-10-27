@@ -42,7 +42,7 @@ router.post(
   }
 );
 
-router.get("/projects", isAuthenticated, (req, res, next) => {
+router.get("/projects", (req, res, next) => {
 
   Project.find()
     .then((projectsList) => {
@@ -57,7 +57,7 @@ router.get("/projects", isAuthenticated, (req, res, next) => {
     });
 });
 
-router.get("/projects/:projectId", isAuthenticated, (req, res, next) => {
+router.get("/projects/:projectId", (req, res, next) => {
 
     const {projectId } = req.params
 
