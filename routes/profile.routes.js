@@ -6,7 +6,7 @@ const User = require("../models/User.model");
 const fileUploader = require("../config/cloudinary.config");
 
 router.put(
-  "/create-profile/:userId",
+  "/user/:userId/create-profile",
   fileUploader.single("image"),
   (req, res, next) => {
     // if (req.file.path) {
@@ -23,6 +23,8 @@ router.put(
       githubUrl,
       profileImg,
     };
+    console.log(userId)
+    console.log(newProfile)
 
     User.findByIdAndUpdate(userId, { profile: newProfile} ,{ returnDocument: "after" })
       .then((newProfile) => {
