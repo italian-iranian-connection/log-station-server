@@ -6,14 +6,14 @@ const User = require("../models/User.model");
 const fileUploader = require("../config/cloudinary.config");
 
 router.put(
-  "/user/:userId/create-profile",
+  "/user/:userId/",
   fileUploader.single("image"),
   (req, res, next) => {
     // if (req.file.path) {
     //   const profileImg = req.file.path;
     //   return profileImg;
     // }
-    const {userId} = req.params
+    const {userId} = req.params;
     const { headline, basedIn, technologies, githubUrl, profileImg } = req.body;
 
     const newProfile = {
