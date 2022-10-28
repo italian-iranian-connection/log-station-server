@@ -1,13 +1,28 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the User model to whatever makes sense in this case
-
-
 const profileSchema = new Schema({
-  techSkills: [String],
-  basedIn: String
-})  
-
+  headline: {
+    type: String,
+    required: true,
+  },
+  basedIn: {
+    type: String,
+    default: "🗺",
+  },
+  technologies: {
+    type: [String],
+    required: true,
+  },
+  githubUrl: {
+    type: String,
+    required: true,
+  },
+  profileImg: {
+    type: String,
+    default:
+      "https://www.canva.com/templates/EAEeKH905XY-yellow-and-black-gamer-grunge-twitch-profile-picture/",
+  },
+});
 
 const userSchema = new Schema(
   {
@@ -26,16 +41,12 @@ const userSchema = new Schema(
       type: String,
       required: [false, "Name is required."],
     },
-    profile: profileSchema
-  }, 
-    {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
+    profile: profileSchema,
+  },
+
+  {
     timestamps: true,
   }
+);
 
-  );
-
-const User = model("User", userSchema);
-
-
-module.exports = User;
+module.exports = model("User", userSchema);

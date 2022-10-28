@@ -82,7 +82,7 @@ router.get("/projects/:projectId", (req, res, next) => {
 router.put("/projects/:projectId", isAuthenticated, (req, res, next) => {
 
     const {projectId } = req.params
-    const userId = req.payload._id   //to add when defied
+    const userId = req.payload._id 
     const { name, technologies, deploymentUrl, gitRepoUrl, status } = req.body;
 
     const updateProject = {
