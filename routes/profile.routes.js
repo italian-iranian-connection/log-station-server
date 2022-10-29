@@ -28,6 +28,7 @@ router.put(
 
     User.findByIdAndUpdate(userId, { profile: newProfile} ,{ returnDocument: "after" })
       .then((newProfile) => {
+        console.log(newProfile)
         res.json(newProfile);
       })
       .catch((err) => {
@@ -50,11 +51,11 @@ router.get("/user/:userId", (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
-      if (req.payload._id == userId) {
+     // if (req.payload._id == userId) {
         res.json(user);
-      } else {
-        res.status(400).json({ message: "Not authorize to see this profile" });
-      }
+     // } else {
+      //  res.status(400).json({ message: "Not authorize to see this profile" });
+     // }
     })
     .catch((err) => {
       console.log("error getting user");
