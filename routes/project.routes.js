@@ -4,22 +4,27 @@ const Project = require("../models/Project.model");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
-const fileUploader = require("../config/cloudinary.config"); // , fileUploader.single("screenshoot") // to add in the routes POST project
+const fileUploader = require("../config/cloudinary.config"); 
+
+router.post("/upload",isAuthenticated, fileUploader.single("screenshoot"), (req, res, next) => {
+  if (!req.file) {
+    next(new Error("No file uploaded!"))
+    return;
+  }
+  res.json({ screenshoot: req.file.path })
+})
 
 router.post(
   "/projects",
   isAuthenticated, 
-  fileUploader.single("screenshoot"),
   (req, res, next) => {
-    if(req.file.path){
-        const screenshoot = req.file.path
-        return screenshoot
-    }
-    const userId = req.payload._id  // to add when defied
-    const { name, technologies, deploymentUrl, gitRepoUrl, status } = req.body;
+    
+    const userId = req.payload._id 
+    const { name, description, technologies, deploymentUrl, gitRepoUrl, status, screenshoot} = req.body;
 
     const newProject = {
       name,
+      description,
       technologies,
       deploymentUrl,
       gitRepoUrl,
@@ -30,6 +35,7 @@ router.post(
 
     Project.create(newProject)
       .then((newProject) => {
+        console.log("fatttoooo", newProject)
         res.json(newProject);
       })
       .catch((err) => {
@@ -57,7 +63,7 @@ router.get("/projects", (req, res, next) => {
     });
 });
 
-router.get("/projects/:projectId", (req, res, next) => {
+router.get("/projects/:projectId",isAuthenticated, (req, res, next) => {
 
     const {projectId } = req.params
 
@@ -83,10 +89,11 @@ router.put("/projects/:projectId", isAuthenticated, (req, res, next) => {
 
     const {projectId } = req.params
     const userId = req.payload._id 
-    const { name, technologies, deploymentUrl, gitRepoUrl, status } = req.body;
+    const { name, description, technologies, deploymentUrl, gitRepoUrl, status, screenshoot} = req.body;
 
     const updateProject = {
       name,
+      description,
       technologies,
       deploymentUrl,
       gitRepoUrl,

@@ -4,29 +4,32 @@ const projectSchema = new Schema(
   {
     name: {
         type: String,
-        required: false,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
     },
     technologies: {
         type: [String],
-        required: false
+        required: true
     },
     deploymentUrl: {
         type: String,
-        required: false,
-        trim: true
+        trim: true,
     },
     gitRepoUrl: {
         type: String,
-        required: false,
+        required: true,
         trim: true
     },
     status: {
         type: String,
+        required: true,
         enum: ["planned", "ongoing", "finished"]
     },
     screenshoot: {
-        type: String,
-        default:'https://images.unsplash.com/photo-1580927752452-89d86da3fa0a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80'
+        type: String
     },
     userId: {
         type: Schema.Types.ObjectId,
