@@ -5,13 +5,12 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 
-router.put("/user/:userId/", fileUploader.single("image"), (req, res, next) => {
-  // if (req.file.path) {
-  //   const profileImg = req.file.path;
-  //   return profileImg;
-  // }
-  const { userId } = req.params;
-  const { headline, basedIn, technologies, githubUrl, screenshoot } = req.body;
+router.put(
+  "/user/:userId/",
+  fileUploader.single("image"),
+  (req, res, next) => {
+    const {userId} = req.params;
+    const { headline, basedIn, technologies, githubUrl, screenshoot } = req.body;
 
   const newProfile = {
     headline,
