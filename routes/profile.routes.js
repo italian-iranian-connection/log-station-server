@@ -1,7 +1,7 @@
 const router = require("express").Router();
 const mongoose = require("mongoose");
 const User = require("../models/User.model");
-// const { isAuthenticated } = require("../middleware/jwt.middleware.js");
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config");
 
@@ -50,7 +50,8 @@ router.get("/user/:userId", (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
-      if (req.payload._id == userId) {
+      console.log(req.body)
+      if (true) { //if (req.payload._id == userId) {
         res.json(user);
       } else {
         res.status(400).json({ message: "Not authorize to see this profile" });
