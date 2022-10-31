@@ -6,7 +6,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const fileUploader = require("../config/cloudinary.config"); 
 
-router.post("/upload",isAuthenticated, fileUploader.single("screenshoot"), (req, res, next) => {
+router.post("/upload", fileUploader.single("screenshoot"), (req, res, next) => {
   if (!req.file) {
     next(new Error("No file uploaded!"))
     return;

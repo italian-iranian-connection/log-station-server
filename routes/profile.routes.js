@@ -14,14 +14,14 @@ router.put(
     //   return profileImg;
     // }
     const {userId} = req.params;
-    const { headline, basedIn, technologies, githubUrl, profileImg } = req.body;
+    const { headline, basedIn, technologies, githubUrl, screenshoot } = req.body;
 
     const newProfile = {
       headline,
       basedIn,
       technologies,
       githubUrl,
-      profileImg,
+      screenshoot,
     };
     console.log(userId)
     console.log(newProfile)
@@ -51,12 +51,7 @@ router.get("/user/:userId", (req, res, next) => {
 
   User.findById(userId)
     .then((user) => {
-<<<<<<< HEAD
-      console.log(req.body)
-      if (true) { //if (req.payload._id == userId) {
-=======
      // if (req.payload._id == userId) {
->>>>>>> 059451bc533a9b202a499a48a0495a0725c4b346
         res.json(user);
      // } else {
       //  res.status(400).json({ message: "Not authorize to see this profile" });
@@ -73,14 +68,14 @@ router.get("/user/:userId", (req, res, next) => {
 
 router.put("/user/:userId", (req, res, next) => {
   const { userId } = req.params;
-  const { headline, basedIn, technologies, githubUrl, profileImg } = req.body;
+  const { headline, basedIn, technologies, githubUrl, screenshoot } = req.body;
 
     const updatedProfile = {
       headline,
       basedIn,
       technologies,
       githubUrl,
-      profileImg,
+      screenshoot,
     };
 
     if (!mongoose.Types.ObjectId.isValid(userId)) {
