@@ -7,7 +7,7 @@ const profileSchema = new Schema({
   },
   basedIn: {
     type: String,
-    default: "🗺",
+    required: true,
   },
   technologies: {
     type: [String],
@@ -17,11 +17,7 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  profileImg: {
-    type: String,
-    default:
-      "https://www.canva.com/templates/EAEeKH905XY-yellow-and-black-gamer-grunge-twitch-profile-picture/",
-  },
+  screenshoot: String,
 });
 
 const userSchema = new Schema(
