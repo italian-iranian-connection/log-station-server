@@ -17,7 +17,9 @@ const profileSchema = new Schema({
     type: String,
     required: true,
   },
-  screenshoot: String,
+  screenshoot: {
+    type: String,
+  },
 });
 
 const userSchema = new Schema(
