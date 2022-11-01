@@ -48,7 +48,7 @@ router.post(
   }
 );
 
-router.get("/projects", (req, res, next) => {
+router.get("/projects", isAuthenticated, (req, res, next) => {
 
   Project.find()
     .then((projectsList) => {
@@ -122,7 +122,7 @@ router.put("/projects/:projectId", isAuthenticated, (req, res, next) => {
       });
 })
 
-router.delete("/projects/:projectsId", isAuthenticated, (req, res, next) => {
+router.delete("/projects/:projectId", isAuthenticated, (req, res, next) => {
     const {projectId } = req.params
 
     if (!mongoose.Types.ObjectId.isValid(projectId)) {
