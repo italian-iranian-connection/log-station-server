@@ -1,21 +1,23 @@
 const app = require("./app");
-
-// ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 5005
-const PORT = process.env.PORT || 5005;
-
 const FRONTEND_URL = process.env.ORIGIN || "http://localhost:3000";
 
-const cors = require("cors");
 /////////////////////////////////////
 const server = require('http').createServer(app);
 
 const io = require('socket.io')(server,{
   cors: {
-    credentials: true,
-    origin: [FRONTEND_URL] ,
+    origin: FRONTEND_URL ,
     methods: ["GET", "POST"],
   },
 });
+/////////////////////////
+
+// ℹ️ Sets the PORT for our app to have access to it. If no env has been set, we hard code it to 5005
+const PORT = process.env.PORT || 5005;
+
+
+
+////////////////////////
 
 
 io.on("connection", (socket) => {
