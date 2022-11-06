@@ -4,7 +4,7 @@ Log Station is a platform for web developers who want to:
 - show projects they developed
 - share projects they are working on
 - present ideas of projects they'd like to develop
-- CONTACT OTHER DEVELOPER THEY'D LIKE TO COLLABORATE WITH!
+- CONTACT OTHER DEVELOPERS THEY'D LIKE TO COLLABORATE WITH!
 
 ## Installation
 
