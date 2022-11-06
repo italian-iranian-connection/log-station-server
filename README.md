@@ -41,13 +41,13 @@ CLOUDINARY_KEY
 CLOUDINARY_SECRET
 
 
-## Fronend
+## Front-end
  
-Our frontend repository --> [log-station-client](https://github.com/italian-iranian-connection/log-station-client)
+Front-end repository --> [log-station-client](https://github.com/italian-iranian-connection/log-station-client)
 
-Our project hosted on Netlify --> [Log Station](https://logstation.netlify.app)
+Project hosted on Netlify --> [Log Station](https://logstation.netlify.app)
 
-## Visit our website!
+## Visit the website!
 ![Home page](./image/Home-page-screenshot.png)
 
 [GO!](https://logstation.netlify.app)
