@@ -48,8 +48,9 @@ Front-end repository --> [log-station-client](https://github.com/italian-iranian
 Project hosted on Netlify --> [Log Station](https://logstation.netlify.app)
 
 ## Visit the website!
-[GO!](https://logstation.netlify.app)
+[DEMO DEPLOYED ON NETLIFY!](https://logstation.netlify.app)
 
+##
 ![Home page](./image/Home-page-screenshot.png)
 ![Home page](./image/log-station-1.png)
 ![Live chat](./image/log-station-2.png)
