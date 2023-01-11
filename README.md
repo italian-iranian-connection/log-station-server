@@ -54,3 +54,5 @@ Project hosted on Netlify --> [Log Station](https://logstation.netlify.app)
 ![Home page](./image/Home-page-screenshot.png)
 ![Home page](./image/log-station-1.png)
 ![Live chat](./image/log-station-2.png)
+
+[![Deploy to Cyclic](https://deploy.cyclic.sh/button.svg)](https://deploy.cyclic.sh/)
